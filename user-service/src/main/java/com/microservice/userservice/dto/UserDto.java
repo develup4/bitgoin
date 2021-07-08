@@ -1,10 +1,9 @@
 package com.microservice.userservice.dto;
 
+import com.microservice.userservice.vo.ResponseOrder;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class UserDto {
@@ -14,4 +13,6 @@ public class UserDto {
     private String userId;
     private Date createAt;
     private String encryptedPwd;
+
+    private List<ResponseOrder> orders;
 }
