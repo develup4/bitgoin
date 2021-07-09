@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRsepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -36,8 +36,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
 
         userRepository.save(userEntity);
-        UserDto returnUserDto = mapper.map(userEntity, UserDto.class);
-        return returnUserDto;
+        return mapper.map(userEntity, UserDto.class);
     }
 
     @Override
