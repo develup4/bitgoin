@@ -1,0 +1,36 @@
+# test 디렉토리에 따로 application.yml을 만들면 테스트에서는 우선적으로 이 파일이 적용된다.
+# 따라서 DOC 등을 적용할때 활용하면 좋다. 예를 들어 데이터베이스도 인메모리로 변경해서 적용해보고 할 수 있다.
+# 메모리 저장소를 쓰면 테스트를 돌려도 데이터베이스에 적용이 안되어서 편리하다.
+# 테스트는 설정을 따로 가져가는 것이 권장된다.
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:test #jdbc:h2:tcp://localhost/~/springtest # 메모리 저장소로 바꿔보았다.
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create  # create-drop을 하면 마지막에 테이블을 drop해서 날려버린다. # 메모리 저장소의 경우에는 필요는 없다.
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+# 그런데 아래처럼 다 주석처리를 해도 잘 메모리 모드로 작동한다. 기본이 메모리 모드이기 때문이다.
+#spring:
+# datasource:
+#    url: jdbc:h2:mem:test #jdbc:h2:tcp://localhost/~/springtest # 메모리 저장소로 바꿔보았다.
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        format_sql: true

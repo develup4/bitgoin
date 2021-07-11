@@ -1,0 +1,73 @@
+/*
+*** gradle 관련 커맨드 ***
+
+> gradlew dependancies
+
+* 참조하는 라이브러리 구조를 출력한다.
+* 하지만 IntelliJ의 우측 상단의 Gradle 메뉴에서 확인하는게 훨씬 편하다.
+* 그래도 CLI는 간지니까 알아두자.
+
+
+> gradlew build
+> gradlew clean build
+
+* 빌드 커맨드이다.
+* /build/libs에 jar snapshot이 나오는데 용량 대략 39메가정도로 매우 크다.
+* 기본 라이브러리 자체가 많기 때문이다.
+
+
+> java -jar [위에서 빌드한 jar 스냅샷 이름]
+
+* 빌드한 경로에서 스프링 서버를 실행시킨다.
+*/
+
+plugins {
+    id 'org.springframework.boot' version '2.4.7'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.spring'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'junit:junit:4.13.1'
+    implementation 'junit:junit:4.13.1'
+
+    // 쿼리 파라메터를 아래와 같이 표시해준다
+    // insert into member (username, id) values (?, ?)
+    // insert into member (username, id) values ('aaa', 1);
+    // 끝에 버전을 명시한 이유는, 스프링 부트에서 대부분의 라이브러리는 자신의 스프링부트 버전에 호환되는 버전을 자동으로 적용시켜주는데,
+    // 해당 라이브러리는 거기서 포함되질 않았기 때문이다
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6")
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+/*
+*** springboot.devtools ***
+* Thymeleaf나 JSP같은 템플릿 엔진을 쓸 때, 전체를 rebuild하지 않고 해당 템플릿 파일만 recompile해서 변경사항을 적용시킬 수 있다.
+* 상단 Build 메뉴에서 현재 파일 하나만 recompile할 수 있다.
+*/
+
+test {
+    useJUnitPlatform()
+}
