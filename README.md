@@ -1,2 +1,1 @@
-# practice-microservice
-학습을 위한 저장소입니다
+go로 만드는 비트고인
